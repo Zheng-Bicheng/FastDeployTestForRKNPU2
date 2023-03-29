@@ -1,5 +1,9 @@
 #ifndef CONFIG_H
 #define CONFIG_H
+
+#include <QString>
+#include <QTime>
+
 /* define where to save model */
 #define MODEL_FOLDER "./model/"
 
@@ -17,5 +21,13 @@
 #define YOLOV7_MODEL_PATH "yolov7-tiny/yolov7-tiny_tk2_RK3588_i8.rknn"
 #define YOLOX_MODEL_PATH "yolox-s/yoloxs_tk2_RK3588_i8.rknn"
 #endif
+
+QString get_info(QString info) {
+    QTime current_time = QTime::currentTime();
+    QString time = current_time.toString("hh:mm:ss t");
+    QDate current_date = QDate::currentDate();
+    QString date = current_date.toString("yyyy-MM-dd");
+    return date + " " + time + ": " + info + "\n";
+}
 
 #endif // CONFIG_H

@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QString>
 using namespace fastdeploy::vision::detection;
 
 Detection::Detection(QWidget *parent) : QWidget(parent), ui(new Ui::Detection) {
@@ -125,8 +126,10 @@ void Detection::predict_image(const cv::Mat &src) {
     std::cerr << "Failed to predict." << std::endl;
     return;
   }
-
-  auto vis_im = fastdeploy::vision::VisDetection(src, res, 0.5);
+  int vis_size = res.boxes.size();
+  ui->textEditInfo->append(get_info("检测到" + QString::number(vis_size) + "个目标。"));
+  auto vis_im = fastdeploy::vision::VisDetection(
+      src, res, ui->lineEditInputConf->text().toFloat());
   cv::Mat after_predict_image = change_mat_format(vis_im);
   set_show_label(after_predict_image, ui->labelAfterLabel);
   QApplication::processEvents(QEventLoop::AllEvents, 100); //防止阻塞界面
