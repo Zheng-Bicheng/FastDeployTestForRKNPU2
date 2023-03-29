@@ -1,4 +1,5 @@
 #include "detection.h"
+#include "config.h"
 #include "ui_detection.h"
 #include <QDebug>
 #include <QFileDialog>
@@ -88,25 +89,46 @@ void Detection::predict_image(const cv::Mat &src) {
   fastdeploy::vision::DetectionResult res;
   std::string model_file, params_file, config_file;
   auto option = fastdeploy::RuntimeOption();
-  RKYOLO *npu_model;
+  option.UseRKNPU2();
+  RKYOLO *npu_model = nullptr;
   if (ui->comboBoxOption->currentText() == "CPU") {
-    QMessageBox::information(this, "提示信息", "用户确认信息");
+    QMessageBox::information(this, tr("提示信息"),
+                             tr("暂时不支持CPU推理，请使用NPU进行推理"));
     return;
   }
+
   if (ui->comboBoxModel->currentText() == "YOLOv5-s") {
+    QString path = QDir::cleanPath(QString(MODEL_FOLDER) + QDir::separator() +
+                                   QString(YOLOV5_MODEL_PATH));
+    model_file = path.toStdString();
     npu_model = new RKYOLOV5(model_file, option);
+  } else if (ui->comboBoxModel->currentText() == "YOLOv7-tiny") {
+    QString path = QDir::cleanPath(QString(MODEL_FOLDER) + QDir::separator() +
+                                   QString(YOLOV7_MODEL_PATH));
+    model_file = path.toStdString();
+    npu_model = new RKYOLOV7(model_file, option);
+  } else if (ui->comboBoxModel->currentText() == "YOLOX-s") {
+    QString path = QDir::cleanPath(QString(MODEL_FOLDER) + QDir::separator() +
+                                   QString(YOLOX_MODEL_PATH));
+    model_file = path.toStdString();
+    npu_model = new RKYOLOX(model_file, option);
+  } else {
+    return;
   }
 
   if (!npu_model->Initialized()) {
     std::cerr << "Failed to initialize." << std::endl;
     return;
   }
+
   if (!npu_model->Predict(src, &res)) {
     std::cerr << "Failed to predict." << std::endl;
     return;
   }
+
   auto vis_im = fastdeploy::vision::VisDetection(src, res, 0.5);
   cv::Mat after_predict_image = change_mat_format(vis_im);
   set_show_label(after_predict_image, ui->labelAfterLabel);
   QApplication::processEvents(QEventLoop::AllEvents, 100); //防止阻塞界面
+  delete npu_model;
 }

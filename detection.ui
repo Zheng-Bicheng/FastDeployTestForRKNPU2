@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>755</width>
+    <width>1031</width>
     <height>520</height>
    </rect>
   </property>
@@ -14,20 +14,141 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <property name="leftMargin">
-    <number>3</number>
-   </property>
-   <property name="topMargin">
-    <number>3</number>
-   </property>
-   <property name="rightMargin">
-    <number>3</number>
-   </property>
-   <property name="bottomMargin">
-    <number>3</number>
-   </property>
-   <item row="1" column="0">
+   <item row="0" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="maximumSize">
+          <size>
+           <width>60</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Model:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxModel">
+         <item>
+          <property name="text">
+           <string>YOLOv5-s</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>YOLOv7-tiny</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>YOLOX-s</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QLabel" name="label_4">
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>SOC:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxDevice_2">
+         <item>
+          <property name="text">
+           <string>RK3588</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>RK3568</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="maximumSize">
+          <size>
+           <width>80</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Deivce:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxDevice">
+         <item>
+          <property name="text">
+           <string>Local Picture</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Camera</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Run Option:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxOption">
+         <item>
+          <property name="text">
+           <string>CPU</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>NPU</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_7">
      <item>
       <widget class="QPushButton" name="pushButtonStart">
        <property name="minimumSize">
@@ -132,108 +253,6 @@
          <property name="text">
           <string/>
          </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-   <item row="0" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="maximumSize">
-          <size>
-           <width>60</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Model:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBoxModel">
-         <item>
-          <property name="text">
-           <string>YOLOv7-tiny</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>YOLOX-s</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>YOLOv5-s</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Deivce:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBoxDevice">
-         <item>
-          <property name="text">
-           <string>Local Picture</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Camera</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLabel" name="label_3">
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Run Option:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBoxOption">
-         <item>
-          <property name="text">
-           <string>CPU</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>NPU</string>
-          </property>
-         </item>
         </widget>
        </item>
       </layout>

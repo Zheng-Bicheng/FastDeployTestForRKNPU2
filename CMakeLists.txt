@@ -22,6 +22,7 @@ set(PROJECT_SOURCES
         detection.cpp
         detection.h
         detection.ui
+        config.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -48,7 +49,7 @@ else()
 endif()
 
 # 指定下载解压后的fastdeploy库路径
-set(FASTDEPLOY_INSTALL_DIR "compiled_fastdeploy_sdk")
+set(FASTDEPLOY_INSTALL_DIR "/home/coolpi/fastdeploy-0.0.0")
 include(${FASTDEPLOY_INSTALL_DIR}/FastDeploy.cmake)
 include_directories(${FASTDEPLOY_INCS})
 
