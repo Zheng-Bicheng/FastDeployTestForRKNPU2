@@ -1,16 +1,17 @@
-#include "detection.h"
+#include "segmentation.h"
+#include "ui_segmentation.h"
 
-#include "ui_detection.h"
-using namespace fastdeploy::vision::detection;
+using namespace fastdeploy::vision::segmentation;
 
-Detection::Detection(QWidget *parent) : QWidget(parent), ui(new Ui::Detection) {
+Segmentation::Segmentation(QWidget *parent)
+    : QWidget(parent), ui(new Ui::Segmentation) {
   ui->setupUi(this);
   _parent_widget = parent;
 }
 
-Detection::~Detection() { delete ui; }
+Segmentation::~Segmentation() { delete ui; }
 
-void Detection::on_comboBoxDevice_currentTextChanged(const QString &arg1) {
+void Segmentation::on_comboBoxDevice_currentTextChanged(const QString &arg1) {
   if (arg1 == "Local Picture") {
     ui->pushButtonStart->setText("选择图片");
   } else {
@@ -18,7 +19,7 @@ void Detection::on_comboBoxDevice_currentTextChanged(const QString &arg1) {
   }
 }
 
-void Detection::on_pushButtonStart_clicked() {
+void Segmentation::on_pushButtonStart_clicked() {
   if (ui->pushButtonStart->text() == "选择图片") {
     cv::Mat src = read_image();
     if (src.empty()) {
@@ -32,7 +33,7 @@ void Detection::on_pushButtonStart_clicked() {
   }
 }
 
-void Detection::resize_show_label() {
+void Segmentation::resize_show_label() {
   // 计算距离
   int distance_width = this->size().rwidth();
   distance_width -= 2 * ui->labelBeforeLabel->size().rwidth();
@@ -51,13 +52,14 @@ void Detection::resize_show_label() {
   _parent_widget->resize(resize_w, resize_h);
 }
 
-void Detection::set_show_label(const cv::Mat &show_data, QLabel *show_label) {
+void Segmentation::set_show_label(const cv::Mat &show_data,
+                                  QLabel *show_label) {
   QImage img = QImage((uchar *)show_data.data, show_data.cols, show_data.rows,
                       show_data.step, QImage::Format_RGB888);
   show_label->setPixmap(QPixmap::fromImage(img));
 }
 
-cv::Mat Detection::read_image() {
+cv::Mat Segmentation::read_image() {
   QString file_path = QFileDialog::getOpenFileName(
       this, tr("Select execute file"), QDir::currentPath(),
       "Image files (*.jpg *.png *.jpeg);;All files(*.*)");
@@ -74,52 +76,45 @@ cv::Mat Detection::read_image() {
   }
   return src;
 }
-void Detection::predict_image(const cv::Mat &src) {
-  fastdeploy::vision::DetectionResult res;
+
+void Segmentation::predict_image(const cv::Mat &src) {
+  fastdeploy::vision::SegmentationResult res;
   std::string model_file, params_file, config_file;
+  auto format = fastdeploy::ModelFormat::RKNN;
   auto option = fastdeploy::RuntimeOption();
   option.UseRKNPU2();
-  RKYOLO *npu_model = nullptr;
   if (ui->comboBoxOption->currentText() == "CPU") {
     QMessageBox::information(this, tr("提示信息"),
                              tr("暂时不支持CPU推理，请使用NPU进行推理"));
     return;
   }
 
-  if (ui->comboBoxModel->currentText() == "YOLOv5-s") {
-    QString path = QDir::cleanPath(QString(MODEL_FOLDER) + QDir::separator() +
-                                   QString(YOLOV5_MODEL_PATH));
-    model_file = path.toStdString();
-    npu_model = new RKYOLOV5(model_file, option);
-  } else if (ui->comboBoxModel->currentText() == "YOLOv7-tiny") {
-    QString path = QDir::cleanPath(QString(MODEL_FOLDER) + QDir::separator() +
-                                   QString(YOLOV7_MODEL_PATH));
-    model_file = path.toStdString();
-    npu_model = new RKYOLOV7(model_file, option);
-  } else if (ui->comboBoxModel->currentText() == "YOLOX-s") {
-    QString path = QDir::cleanPath(QString(MODEL_FOLDER) + QDir::separator() +
-                                   QString(YOLOX_MODEL_PATH));
-    model_file = path.toStdString();
-    npu_model = new RKYOLOX(model_file, option);
+  if (ui->comboBoxModel->currentText() == "PPHumanseg") {
+    QString model_path =
+        QDir::cleanPath(QString(MODEL_FOLDER) + QDir::separator() +
+                        QString(PPHUMANSEG_MODEL_PATH));
+    model_file = model_path.toStdString();
+    QString config_path =
+        QDir::cleanPath(QString(MODEL_FOLDER) + QDir::separator() +
+                        QString(PPHUMANSEG_CONFIG_PATH));
+    config_file = config_path.toStdString();
+    auto model =
+        PaddleSegModel(model_file, params_file, config_file, option, format);
+    if (!model.Initialized()) {
+      std::cerr << "Failed to initialize." << std::endl;
+      return;
+    }
+    model.GetPreprocessor().DisablePermute();
+    model.GetPreprocessor().DisableNormalize();
+    if (!model.Predict(src, &res)) {
+      std::cerr << "Failed to predict." << std::endl;
+      return;
+    }
   } else {
     return;
   }
-
-  if (!npu_model->Initialized()) {
-    std::cerr << "Failed to initialize." << std::endl;
-    return;
-  }
-
-  if (!npu_model->Predict(src, &res)) {
-    std::cerr << "Failed to predict." << std::endl;
-    return;
-  }
-  int vis_size = res.boxes.size();
-  ui->textEditInfo->append(get_info(QString::number(vis_size)));
-  auto vis_im = fastdeploy::vision::VisDetection(
-      src, res, ui->lineEditInputConf->text().toFloat());
+  auto vis_im = fastdeploy::vision::VisSegmentation(src, res);
   cv::Mat after_predict_image = change_mat_format(vis_im);
   set_show_label(after_predict_image, ui->labelAfterLabel);
   QApplication::processEvents(QEventLoop::AllEvents, 100); //防止阻塞界面
-  delete npu_model;
 }
