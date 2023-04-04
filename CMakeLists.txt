@@ -23,6 +23,16 @@ set(PROJECT_SOURCES
         detection.h
         detection.ui
         config.h
+        config.cpp
+        facedetection.cpp
+        facedetection.h
+        facedetection.ui
+        ocr.cpp
+        ocr.h
+        ocr.ui
+        segmentation.cpp
+        segmentation.h
+        segmentation.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
