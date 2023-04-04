@@ -1,10 +1,6 @@
 #include "detection.h"
-#include "config.h"
+
 #include "ui_detection.h"
-#include <QDebug>
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QString>
 using namespace fastdeploy::vision::detection;
 
 Detection::Detection(QWidget *parent) : QWidget(parent), ui(new Ui::Detection) {
@@ -55,13 +51,6 @@ void Detection::resize_show_label() {
   _parent_widget->resize(resize_w, resize_h);
 }
 
-cv::Mat Detection::change_mat_format(const cv::Mat &src) {
-  // 转换为QT显示
-  cv::Mat temp;
-  cv::cvtColor(src, temp, cv::COLOR_BGR2RGB);
-  return temp;
-}
-
 void Detection::set_show_label(const cv::Mat &show_data, QLabel *show_label) {
   QImage img = QImage((uchar *)show_data.data, show_data.cols, show_data.rows,
                       show_data.step, QImage::Format_RGB888);
@@ -85,7 +74,6 @@ cv::Mat Detection::read_image() {
   }
   return src;
 }
-
 void Detection::predict_image(const cv::Mat &src) {
   fastdeploy::vision::DetectionResult res;
   std::string model_file, params_file, config_file;
@@ -127,7 +115,7 @@ void Detection::predict_image(const cv::Mat &src) {
     return;
   }
   int vis_size = res.boxes.size();
-  ui->textEditInfo->append(get_info("检测到" + QString::number(vis_size) + "个目标。"));
+  ui->textEditInfo->append(get_info(QString::number(vis_size)));
   auto vis_im = fastdeploy::vision::VisDetection(
       src, res, ui->lineEditInputConf->text().toFloat());
   cv::Mat after_predict_image = change_mat_format(vis_im);

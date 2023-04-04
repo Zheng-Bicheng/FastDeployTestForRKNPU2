@@ -1,8 +1,11 @@
 #ifndef DETECTION_H
 #define DETECTION_H
-
-#include "fastdeploy/vision.h"
+#include "config.h"
+#include <QDebug>
+#include <QFileDialog>
 #include <QLabel>
+#include <QMessageBox>
+#include <QString>
 #include <QWidget>
 namespace Ui {
 class Detection;
@@ -23,7 +26,6 @@ private:
   QWidget *_parent_widget = nullptr;
   Ui::Detection *ui;
   void resize_show_label();
-  cv::Mat change_mat_format(const cv::Mat &src);
   void set_show_label(const cv::Mat &show_data, QLabel *show_label);
   cv::Mat read_image();
   void predict_image(const cv::Mat &src);
