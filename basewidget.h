@@ -8,7 +8,6 @@
 #define RKNPU2_SOC 1 // 0 for RK356X ; 1 for RK3588
 /**********************************************************************/
 
-#include "config.h"
 #include "fastdeploy/vision.h"
 #include "ui_basewidget.h"
 #include <QLabel>
@@ -32,6 +31,7 @@ protected:
   void resize_main_widget();
   void resize_main_widget(QSize size);
   Ui::BaseWidget *get_ui();
+
 private slots:
   virtual void on_pushButtonStart_clicked();
   virtual void on_comboBoxDevice_currentTextChanged(const QString &arg1);

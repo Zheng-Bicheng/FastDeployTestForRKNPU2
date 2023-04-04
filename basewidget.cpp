@@ -26,6 +26,9 @@ BaseWidget::BaseWidget(QWidget *parent)
   // hide
   ui->pushButtonInputFace->hide();
   ui->pushButtonOpenCamera->hide();
+
+    ui->labelBeforeLabel->setAlignment(Qt::AlignCenter);
+    ui->labelAfterLabel->setAlignment(Qt::AlignCenter);
 }
 
 BaseWidget::~BaseWidget() { delete ui; }

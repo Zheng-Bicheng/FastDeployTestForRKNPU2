@@ -6,7 +6,7 @@ OCR::OCR(QWidget *parent) : BaseWidget(parent) {
   ui->comboBoxModel->addItem("PPOCRv3");
 }
 
-OCR::~OCR() { delete ui; }
+OCR::~OCR() {}
 void OCR::on_pushButtonStart_clicked() {
   QString file_path = QFileDialog::getOpenFileName(
       this, tr("Select execute file"), QDir::currentPath(),

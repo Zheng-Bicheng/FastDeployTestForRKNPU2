@@ -19,8 +19,6 @@ set(PROJECT_SOURCES
         widget.cpp
         widget.h
         widget.ui
-        config.h
-        config.cpp
         basewidget.cpp
         basewidget.h
         basewidget.ui
@@ -28,12 +26,10 @@ set(PROJECT_SOURCES
         detection.h
         ocr.cpp
         ocr.h
-#        segmentation.cpp
-#        segmentation.h
-#        segmentation.ui
-#        facedetection.cpp
-#        facedetection.h
-#        facedetection.ui
+        segmentation.cpp
+        segmentation.h
+        facedetection.cpp
+        facedetection.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

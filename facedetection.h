@@ -1,18 +1,22 @@
 #ifndef FACEDETECTION_H
 #define FACEDETECTION_H
 
-#include "config.h"
+#include "basewidget.h"
 #include <QDebug>
 #include <QFileDialog>
 #include <QLabel>
 #include <QMessageBox>
 #include <QString>
 #include <QWidget>
-namespace Ui {
-class FaceDetection;
-}
 
-class FaceDetection : public QWidget {
+#if (RKNPU2_SOC == 0)
+#else
+#define SCRFD_MODEL_PATH                                                       \
+  "scrfd_500m_bnkps_shape640x640/"                                             \
+  "scrfd_500m_bnkps_shape640x640_rk3588_quantized.rknn"
+#endif
+
+class FaceDetection : public BaseWidget {
   Q_OBJECT
 
 public:
@@ -21,14 +25,9 @@ public:
 
 private slots:
   void on_pushButtonStart_clicked();
-  void on_comboBoxDevice_currentTextChanged(const QString &arg1);
 
 private:
-  QWidget *_parent_widget = nullptr;
-  void resize_show_label();
-  void set_show_label(const cv::Mat &show_data, QLabel *show_label);
-  Ui::FaceDetection *ui;
-  cv::Mat read_image();
+  Ui::BaseWidget *ui;
   void predict_image(cv::Mat &src);
 };
 

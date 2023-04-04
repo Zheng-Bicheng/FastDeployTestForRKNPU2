@@ -1,80 +1,27 @@
 #include "segmentation.h"
-#include "ui_segmentation.h"
 
 using namespace fastdeploy::vision::segmentation;
 
-Segmentation::Segmentation(QWidget *parent)
-    : QWidget(parent), ui(new Ui::Segmentation) {
-  ui->setupUi(this);
-  _parent_widget = parent;
+Segmentation::Segmentation(QWidget *parent) : BaseWidget(parent) {
+  ui = get_ui();
+  ui->comboBoxModel->addItem("PPHumansegV2");
 }
 
-Segmentation::~Segmentation() { delete ui; }
-
-void Segmentation::on_comboBoxDevice_currentTextChanged(const QString &arg1) {
-  if (arg1 == "Local Picture") {
-    ui->pushButtonStart->setText("选择图片");
-  } else {
-    ui->pushButtonStart->setText("选择视频");
-  }
-}
+Segmentation::~Segmentation() {}
 
 void Segmentation::on_pushButtonStart_clicked() {
-  if (ui->pushButtonStart->text() == "选择图片") {
-    cv::Mat src = read_image();
-    if (src.empty()) {
-      return;
-    }
-    cv::Mat before_predict_image = change_mat_format(src);
-    set_show_label(before_predict_image, ui->labelBeforeLabel);
-    resize_show_label();
-    predict_image(src);
-  } else {
-  }
-}
-
-void Segmentation::resize_show_label() {
-  // 计算距离
-  int distance_width = this->size().rwidth();
-  distance_width -= 2 * ui->labelBeforeLabel->size().rwidth();
-  distance_width += 10;
-  int distance_height = this->size().rheight();
-  distance_height -= 2 * ui->labelBeforeLabel->size().rheight();
-  distance_height += 20;
-
-  // resize显示部分
-  ui->labelBeforeLabel->resize(ui->labelBeforeLabel->pixmap()->size());
-  ui->labelAfterLabel->resize(ui->labelBeforeLabel->pixmap()->size());
-
-  // 计算主界面resize后的距离
-  int resize_w = distance_width + 2 * ui->labelBeforeLabel->size().rwidth();
-  int resize_h = distance_height + 2 * ui->labelBeforeLabel->size().rheight();
-  _parent_widget->resize(resize_w, resize_h);
-}
-
-void Segmentation::set_show_label(const cv::Mat &show_data,
-                                  QLabel *show_label) {
-  QImage img = QImage((uchar *)show_data.data, show_data.cols, show_data.rows,
-                      show_data.step, QImage::Format_RGB888);
-  show_label->setPixmap(QPixmap::fromImage(img));
-}
-
-cv::Mat Segmentation::read_image() {
   QString file_path = QFileDialog::getOpenFileName(
       this, tr("Select execute file"), QDir::currentPath(),
       "Image files (*.jpg *.png *.jpeg);;All files(*.*)");
-  if (!QFile::exists(file_path)) {
-    return cv::Mat();
-  }
-  ui->lineEditInput->setText(file_path);
-
-  // 读取图像
-  cv::Mat src = cv::imread(file_path.toLatin1().data());
+  cv::Mat src = read_image(file_path);
   if (src.empty()) {
-    qDebug() << "图像不存在或出现了未知错误";
-    return cv::Mat();
+    qDebug() << "file_path is none.";
+    return;
   }
-  return src;
+  set_image_to_label(src, ui->labelBeforeLabel);
+  resize_image_label(ui->labelBeforeLabel);
+  resize_main_widget();
+  predict_image(src);
 }
 
 void Segmentation::predict_image(const cv::Mat &src) {
@@ -89,7 +36,7 @@ void Segmentation::predict_image(const cv::Mat &src) {
     return;
   }
 
-  if (ui->comboBoxModel->currentText() == "PPHumanseg") {
+  if (ui->comboBoxModel->currentText() == "PPHumansegV2") {
     QString model_path =
         QDir::cleanPath(QString(MODEL_FOLDER) + QDir::separator() +
                         QString(PPHUMANSEG_MODEL_PATH));
@@ -114,7 +61,8 @@ void Segmentation::predict_image(const cv::Mat &src) {
     return;
   }
   auto vis_im = fastdeploy::vision::VisSegmentation(src, res);
-  cv::Mat after_predict_image = change_mat_format(vis_im);
-  set_show_label(after_predict_image, ui->labelAfterLabel);
+  set_image_to_label(vis_im, ui->labelAfterLabel);
+  resize_image_label(ui->labelAfterLabel);
+  resize_main_widget();
   QApplication::processEvents(QEventLoop::AllEvents, 100); //防止阻塞界面
 }

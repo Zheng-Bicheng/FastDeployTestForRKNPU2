@@ -1,18 +1,21 @@
 #ifndef SEGMENTATION_H
 #define SEGMENTATION_H
-#include "config.h"
+#include "basewidget.h"
 #include <QDebug>
 #include <QFileDialog>
 #include <QLabel>
 #include <QMessageBox>
 #include <QString>
 #include <QWidget>
-
-namespace Ui {
-class Segmentation;
-}
-
-class Segmentation : public QWidget {
+#if (RKNPU2_SOC == 0)
+#else
+#define PPHUMANSEG_MODEL_PATH                                                  \
+  "Portrait_PP_HumanSegV2_Lite_256x144_infer/"                                 \
+  "Portrait_PP_HumanSegV2_Lite_256x144_infer_rk3588_unquantized.rknn"
+#define PPHUMANSEG_CONFIG_PATH                                                 \
+  "Portrait_PP_HumanSegV2_Lite_256x144_infer/deploy.yaml"
+#endif
+class Segmentation : public BaseWidget {
   Q_OBJECT
 
 public:
@@ -20,15 +23,10 @@ public:
   ~Segmentation();
 
 private slots:
-  void on_comboBoxDevice_currentTextChanged(const QString &arg1);
   void on_pushButtonStart_clicked();
 
 private:
-  QWidget *_parent_widget = nullptr;
-  Ui::Segmentation *ui;
-  void resize_show_label();
-  void set_show_label(const cv::Mat &show_data, QLabel *show_label);
-  cv::Mat read_image();
+  Ui::BaseWidget *ui;
   void predict_image(const cv::Mat &src);
 };
 

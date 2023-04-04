@@ -3,9 +3,9 @@
 
 #include "basewidget.h"
 #include "detection.h"
-//#include "facedetection.h"
+#include "facedetection.h"
 #include "ocr.h"
-//#include "segmentation.h"
+#include "segmentation.h"
 #include <QWidget>
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,8 +23,8 @@ public:
 private:
   Ui::Widget *ui;
   Detection *_detection;
-  //  Segmentation *_segmentation;
-  //  FaceDetection *_face_detection;
+  Segmentation *_segmentation;
+  FaceDetection *_face_detection;
   OCR *_ocr;
   BaseWidget *base_widget_;
 };
