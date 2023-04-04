@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>668</width>
-    <height>599</height>
+    <width>711</width>
+    <height>628</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,17 +35,7 @@
         <widget class="QComboBox" name="comboBoxModel">
          <item>
           <property name="text">
-           <string>YOLOv5-s</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>YOLOv7-tiny</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>YOLOX-s</string>
+           <string>SCRFD</string>
           </property>
          </item>
         </widget>
@@ -211,6 +201,20 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="pushButtonOpenCamera">
+       <property name="text">
+        <string>打开摄像头</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonInputFace">
+       <property name="text">
+        <string>录入人脸</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -236,7 +240,7 @@
         </size>
        </property>
        <property name="text">
-        <string>input</string>
+        <string>原输入视频</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -272,7 +276,7 @@
         </size>
        </property>
        <property name="text">
-        <string>可视化结果</string>
+        <string>检测到的最高置信度人脸</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

@@ -38,8 +38,12 @@
   "Portrait_PP_HumanSegV2_Lite_256x144_infer_rk3588_unquantized.rknn"
 #define PPHUMANSEG_CONFIG_PATH                                                 \
   "Portrait_PP_HumanSegV2_Lite_256x144_infer/deploy.yaml"
-#endif
+
+#define SCRFD_MODEL_PATH                                                       \
+  "scrfd_500m_bnkps_shape640x640/"                                             \
+  "scrfd_500m_bnkps_shape640x640_rk3588_quantized.rknn"
 
 QString get_info(QString info);
 cv::Mat change_mat_format(const cv::Mat &src);
+#endif
 #endif // CONFIG_H

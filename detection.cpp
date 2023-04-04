@@ -19,17 +19,14 @@ void Detection::on_comboBoxDevice_currentTextChanged(const QString &arg1) {
 }
 
 void Detection::on_pushButtonStart_clicked() {
-  if (ui->pushButtonStart->text() == "选择图片") {
-    cv::Mat src = read_image();
-    if (src.empty()) {
-      return;
-    }
-    cv::Mat before_predict_image = change_mat_format(src);
-    set_show_label(before_predict_image, ui->labelBeforeLabel);
-    resize_show_label();
-    predict_image(src);
-  } else {
+  cv::Mat src = read_image();
+  if (src.empty()) {
+    return;
   }
+  cv::Mat before_predict_image = change_mat_format(src);
+  set_show_label(before_predict_image, ui->labelBeforeLabel);
+  resize_show_label();
+  predict_image(src);
 }
 
 void Detection::resize_show_label() {
