@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>FaceDetection</class>
- <widget class="QWidget" name="FaceDetection">
+ <class>BaseWidget</class>
+ <widget class="QWidget" name="BaseWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>711</width>
-    <height>628</height>
+    <width>672</width>
+    <height>597</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,13 +34,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="comboBoxModel">
-           <item>
-            <property name="text">
-             <string>SCRFD</string>
-            </property>
-           </item>
-          </widget>
+          <widget class="QComboBox" name="comboBoxModel"/>
          </item>
         </layout>
        </item>
@@ -174,6 +168,20 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="pushButtonOpenCamera">
+         <property name="text">
+          <string>打开摄像头</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonInputFace">
+         <property name="text">
+          <string>录入人脸</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="label_7">
          <property name="text">
           <string>Confident:</string>
@@ -199,20 +207,6 @@
          </property>
          <property name="readOnly">
           <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButtonOpenCamera">
-         <property name="text">
-          <string>打开摄像头</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButtonInputFace">
-         <property name="text">
-          <string>录入人脸</string>
          </property>
         </widget>
        </item>

@@ -19,20 +19,21 @@ set(PROJECT_SOURCES
         widget.cpp
         widget.h
         widget.ui
-        detection.cpp
-        detection.h
-        detection.ui
         config.h
         config.cpp
-        facedetection.cpp
-        facedetection.h
-        facedetection.ui
+        basewidget.cpp
+        basewidget.h
+        basewidget.ui
+        detection.cpp
+        detection.h
         ocr.cpp
         ocr.h
-        ocr.ui
-        segmentation.cpp
-        segmentation.h
-        segmentation.ui
+#        segmentation.cpp
+#        segmentation.h
+#        segmentation.ui
+#        facedetection.cpp
+#        facedetection.h
+#        facedetection.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -21,7 +21,6 @@ public:
 
 private slots:
   void on_pushButtonStart_clicked();
-
   void on_comboBoxDevice_currentTextChanged(const QString &arg1);
 
 private:
