@@ -1,5 +1,4 @@
 #include "currentvideo.h"
-
 #include <QDebug>
 
 void CurrentVideo::run() {
@@ -11,7 +10,6 @@ void CurrentVideo::run() {
     if (cap_.isOpened()) {
       cap_ >> input_mat_;
       if (mat_queue_.empty()) {
-        qDebug() << "The camera queue is fulled";
         mat_queue_.enqueue(input_mat_);
       }
     }
@@ -24,6 +22,7 @@ bool CurrentVideo::Open(std::string &gstreamer_url) {
     return init_;
   }
 
+  qDebug() << QString::fromStdString(gstreamer_url);
   cap_ = cv::VideoCapture(gstreamer_url, cv::CAP_GSTREAMER);
   if (!cap_.isOpened()) {
     qDebug() << "Can't open gstreamer.";
@@ -36,7 +35,6 @@ bool CurrentVideo::Open(std::string &gstreamer_url) {
 
 cv::Mat CurrentVideo::Read() {
   cv::Mat output_mat_;
-  qDebug() << "read to data";
   if (!init_) {
     qDebug() << "CurrentVideo has not been initialized!";
     return output_mat_;

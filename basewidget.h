@@ -12,6 +12,7 @@
 #include "fastdeploy/vision.h"
 #include "ui_basewidget.h"
 #include <QLabel>
+#include <QTimer>
 #include <QWidget>
 namespace Ui {
 class BaseWidget;
@@ -38,11 +39,13 @@ private slots:
   virtual void on_comboBoxDevice_currentTextChanged(const QString &arg1);
   virtual void on_pushButtonOpenCamera_clicked();
   virtual void on_pushButtonInputFace_clicked();
+  virtual void show_data();
 
 private:
   Ui::BaseWidget *ui;
   QWidget *main_widget_;
   CurrentVideo current_video_;
+  QTimer thime;
   int distance_width_ = 0;
   int distance_height_ = 0;
 };

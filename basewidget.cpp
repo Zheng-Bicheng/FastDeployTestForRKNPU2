@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QImage>
 #include <QPixmap>
+
 BaseWidget::BaseWidget(QWidget *parent)
     : QWidget(parent), ui(new Ui::BaseWidget) {
   ui->setupUi(this);
@@ -128,7 +129,22 @@ void BaseWidget::on_comboBoxDevice_currentTextChanged(const QString &arg1) {
 }
 
 void BaseWidget::on_pushButtonOpenCamera_clicked() {
+  std::string url = "v4l2src device=/dev/video20 ! image/jpeg, width=640, "
+                    "height=360, framerate=25/1 ! jpegparse ! mppjpegdec ! "
+                    "videoconvert ! appsink sync=false";
   ui->pushButtonInputFace->setDisabled(false);
+  current_video_.Open(url);
+  current_video_.start();
 }
 
-void BaseWidget::on_pushButtonInputFace_clicked() {}
+void BaseWidget::on_pushButtonInputFace_clicked() {
+  QTimer::singleShot(1, this, &BaseWidget::show_data);
+}
+
+void BaseWidget::show_data() {
+  cv::Mat src = current_video_.Read();
+  if (!src.empty()) {
+    set_image_to_label(src, ui->labelBeforeLabel);
+  }
+  QTimer::singleShot(40, this, &BaseWidget::show_data);
+}
