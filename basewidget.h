@@ -8,6 +8,7 @@
 #define RKNPU2_SOC 1 // 0 for RK356X ; 1 for RK3588
 /**********************************************************************/
 
+#include "currentvideo.h"
 #include "fastdeploy/vision.h"
 #include "ui_basewidget.h"
 #include <QLabel>
@@ -35,10 +36,13 @@ protected:
 private slots:
   virtual void on_pushButtonStart_clicked();
   virtual void on_comboBoxDevice_currentTextChanged(const QString &arg1);
+  virtual void on_pushButtonOpenCamera_clicked();
+  virtual void on_pushButtonInputFace_clicked();
 
 private:
   Ui::BaseWidget *ui;
   QWidget *main_widget_;
+  CurrentVideo current_video_;
   int distance_width_ = 0;
   int distance_height_ = 0;
 };

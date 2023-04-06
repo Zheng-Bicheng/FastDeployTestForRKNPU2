@@ -25,17 +25,18 @@ BaseWidget::BaseWidget(QWidget *parent)
 
   // hide
   ui->pushButtonInputFace->hide();
+  ui->pushButtonInputFace->setDisabled(true);
   ui->pushButtonOpenCamera->hide();
 
-    ui->labelBeforeLabel->setAlignment(Qt::AlignCenter);
-    ui->labelAfterLabel->setAlignment(Qt::AlignCenter);
+  ui->labelBeforeLabel->setAlignment(Qt::AlignCenter);
+  ui->labelAfterLabel->setAlignment(Qt::AlignCenter);
 }
 
 BaseWidget::~BaseWidget() { delete ui; }
 
 void BaseWidget::on_pushButtonStart_clicked() {
   QString file_path = QFileDialog::getOpenFileName(
-      this, tr("Select execute file"), QDir::currentPath(),
+      nullptr, tr("Select execute file"), QDir::currentPath(),
       "Image files (*.jpg *.png *.jpeg);;All files(*.*)");
   cv::Mat src = read_image(file_path);
   if (src.empty()) {
@@ -125,3 +126,9 @@ void BaseWidget::on_comboBoxDevice_currentTextChanged(const QString &arg1) {
     ui->pushButtonInputFace->show();
   }
 }
+
+void BaseWidget::on_pushButtonOpenCamera_clicked() {
+  ui->pushButtonInputFace->setDisabled(false);
+}
+
+void BaseWidget::on_pushButtonInputFace_clicked() {}

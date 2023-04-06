@@ -10,16 +10,16 @@ FaceDetection::~FaceDetection() {}
 
 void FaceDetection::on_pushButtonStart_clicked() {
   QString file_path = QFileDialog::getOpenFileName(
-      this, tr("Select execute file"), QDir::currentPath(),
+      nullptr, tr("Select execute file"), QDir::currentPath(),
       "Image files (*.jpg *.png *.jpeg);;All files(*.*)");
   cv::Mat src = read_image(file_path);
   if (src.empty()) {
     qDebug() << "file_path is none.";
     return;
   }
-  set_image_to_label(src, ui->labelBeforeLabel);
-  resize_image_label(ui->labelBeforeLabel);
-  resize_main_widget();
+  //  set_image_to_label(src, ui->labelBeforeLabel);
+  //  resize_image_label(ui->labelBeforeLabel);
+  //  resize_main_widget();
   predict_image(src);
 }
 
@@ -52,6 +52,11 @@ void FaceDetection::predict_image(cv::Mat &src) {
   } else {
     return;
   }
+  auto vis_im = fastdeploy::vision::VisFaceDetection(src, res);
+  set_image_to_label(vis_im, ui->labelBeforeLabel);
+  resize_image_label(ui->labelBeforeLabel);
+  resize_main_widget();
+
   res.boxes.resize(1);
   res.landmarks.resize(1);
   res.scores.resize(1);

@@ -30,6 +30,8 @@ set(PROJECT_SOURCES
         segmentation.h
         facedetection.cpp
         facedetection.h
+        currentvideo.cpp
+        currentvideo.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

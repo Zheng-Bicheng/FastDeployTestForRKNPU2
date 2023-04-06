@@ -9,7 +9,7 @@ OCR::OCR(QWidget *parent) : BaseWidget(parent) {
 OCR::~OCR() {}
 void OCR::on_pushButtonStart_clicked() {
   QString file_path = QFileDialog::getOpenFileName(
-      this, tr("Select execute file"), QDir::currentPath(),
+      nullptr, tr("Select execute file"), QDir::currentPath(),
       "Image files (*.jpg *.png *.jpeg);;All files(*.*)");
   cv::Mat src = read_image(file_path);
   if (src.empty()) {
@@ -96,7 +96,8 @@ void OCR::predict_image(const cv::Mat &src) {
   } else {
     return;
   }
-
+  ui->textEditInfo->clear();
+  ui->textEditInfo->append(QString::fromStdString(result.Str()));
   auto vis_im = fastdeploy::vision::VisOcr(src, result);
   set_image_to_label(vis_im, ui->labelAfterLabel);
   resize_image_label(ui->labelAfterLabel);

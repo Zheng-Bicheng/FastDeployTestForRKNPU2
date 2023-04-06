@@ -11,7 +11,7 @@ Segmentation::~Segmentation() {}
 
 void Segmentation::on_pushButtonStart_clicked() {
   QString file_path = QFileDialog::getOpenFileName(
-      this, tr("Select execute file"), QDir::currentPath(),
+      nullptr, tr("Select execute file"), QDir::currentPath(),
       "Image files (*.jpg *.png *.jpeg);;All files(*.*)");
   cv::Mat src = read_image(file_path);
   if (src.empty()) {
