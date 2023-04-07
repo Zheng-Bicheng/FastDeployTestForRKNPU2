@@ -33,6 +33,8 @@ protected:
   void resize_main_widget();
   void resize_main_widget(QSize size);
   Ui::BaseWidget *get_ui();
+  cv::Mat read_mat_from_video();
+  CurrentVideo current_video_;
 
 private slots:
   virtual void on_pushButtonStart_clicked();
@@ -44,7 +46,6 @@ private slots:
 private:
   Ui::BaseWidget *ui;
   QWidget *main_widget_;
-  CurrentVideo current_video_;
   QTimer thime;
   int distance_width_ = 0;
   int distance_height_ = 0;

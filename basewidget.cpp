@@ -114,6 +114,8 @@ void BaseWidget::resize_main_widget(QSize size) { main_widget_->resize(size); }
 
 Ui::BaseWidget *BaseWidget::get_ui() { return ui; }
 
+cv::Mat BaseWidget::read_mat_from_video() { return current_video_.Read(); }
+
 void BaseWidget::on_comboBoxDevice_currentTextChanged(const QString &arg1) {
   if (arg1 == "Local Picture") {
     ui->pushButtonStart->show();
@@ -142,9 +144,9 @@ void BaseWidget::on_pushButtonInputFace_clicked() {
 }
 
 void BaseWidget::show_data() {
-  cv::Mat src = current_video_.Read();
+  cv::Mat src = read_mat_from_video();
   if (!src.empty()) {
     set_image_to_label(src, ui->labelBeforeLabel);
   }
-  QTimer::singleShot(40, this, &BaseWidget::show_data);
+  QTimer::singleShot(1, this, &BaseWidget::show_data);
 }

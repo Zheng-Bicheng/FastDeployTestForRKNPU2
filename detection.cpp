@@ -74,3 +74,12 @@ void Detection::predict_image(const cv::Mat &src) {
   QApplication::processEvents(QEventLoop::AllEvents, 100); //防止阻塞界面
   delete npu_model;
 }
+
+void Detection::show_data() {
+  cv::Mat src = read_mat_from_video();
+  if (!src.empty()) {
+    set_image_to_label(src, ui->labelBeforeLabel);
+    predict_image(src);
+  }
+  QTimer::singleShot(1, this, &Detection::show_data);
+}

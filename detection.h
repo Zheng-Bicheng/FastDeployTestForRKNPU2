@@ -27,6 +27,7 @@ public:
 
 private slots:
   void on_pushButtonStart_clicked();
+    virtual void show_data();
 
 private:
   Ui::BaseWidget *ui;
